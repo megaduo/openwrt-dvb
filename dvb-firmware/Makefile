@@ -9,10 +9,10 @@ include $(TOPDIR)/rules.mk
 PKG_NAME := dvb-firmware
 PKG_RELEASE := 1
 
-PKG_SOURCE_DATE := 2017-10-10
+PKG_SOURCE_DATE := 2021-7-20
 PKG_SOURCE_PROTO := git
 PKG_SOURCE_URL := https://github.com/LibreELEC/dvb-firmware.git
-PKG_SOURCE_VERSION := ac20a365c6df3af1a7c92a0195d443b8cf19cb9f
+PKG_SOURCE_VERSION := 0eaf5b3928561d06d254cf5489d1e622bc827e5d
 
 PKG_MAINTAINER := Tomasz Maciej Nowak <tomek_n@o2.pl>
 
