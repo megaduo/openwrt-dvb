@@ -110,6 +110,10 @@ config OSCAM_USE_LIBUSB
 	config OSCAM_READER_TONGFANG
 		bool "Tongfang"
 		default n
+		
+	config OSCAM_READER_JET
+		bool "Jet"
+		default n
 
 	config OSCAM_READER_BULCRYPT
 		bool "Bulcrypt"
