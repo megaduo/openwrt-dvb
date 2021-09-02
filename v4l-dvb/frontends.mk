@@ -445,7 +445,7 @@ $(eval $(call KernelPackage,dvb-lnbp22))
 define KernelPackage/dvb-m88ds3103
   TITLE := Montage Technology M88DS3103
   $(call DvbFrontend,m88ds3103,CONFIG_DVB_M88DS3103)
-  DEPENDS += +kmod-dvb-core +kmod-i2c-mux
+  DEPENDS += +kmod-dvb-core +kmod-i2c-mux +kmod-regmap-core +kmod-regmap-i2c
 endef
 $(eval $(call KernelPackage,dvb-m88ds3103))
 
