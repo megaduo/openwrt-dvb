@@ -2,11 +2,11 @@ PKG_NAME := v4l-dvb-linuxtv
 
 PKG_SOURCE_PROTO := git
 PKG_SOURCE_URL := git://linuxtv.org/media_build.git
-PKG_SOURCE_VERSION := 	7253675c65ed84dc294ef25e2af873e8092be48b
-PKG_SOURCE_DATE := 2021-08-17
+PKG_SOURCE_VERSION := 	963b156d2d8eb45d1eca8414ee637c45a5b9852f
+PKG_SOURCE_DATE := 2022-01-31
 
 V4L_SOURCE_URL := git://linuxtv.org/media_tree.git
-V4L_SOURCE_VERSION := 	9c3a0f285248899dfa81585bc5d5bc9ebdb8fead
+V4L_SOURCE_VERSION := 	7dc5fc6d3bd6779c4859d888221f47e986cb45b5
 V4L_REPO_NAME := linux-media-linuxtv
 V4L_SOURCE_FILE := $(V4L_REPO_NAME)-$(PKG_SOURCE_DATE)-$(shell printf '%.8s' $(V4L_SOURCE_VERSION)).tar.bz2
 
