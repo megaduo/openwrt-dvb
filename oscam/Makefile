@@ -34,7 +34,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/oscam
   SECTION:=stream
   CATEGORY:=Multimedia
-  DEPENDS:=+libopenssl +libpthread +libusb-1.0
+  DEPENDS:=+libopenssl +libusb-1.0 +kmod-usb-serial +kmod-usb-serial-ch341 +kmod-usb-serial-ftdi +kmod-usb-serial-pl2303 +libpcsclite +pcscd +ccid
   TITLE:=Open Source Conditional Access Module software
   URL:=http://streamboard.gmc.to/oscam/
   SUBMENU:=
@@ -45,7 +45,18 @@ define Package/oscam/description
 based on the very good MpCS version 0.9d created by dukat.
 endef
 
-CONFIGURE_ARGS += --with-ssl=openssl
+CONFIGURE_CMD = ./config.sh
+CONFIGURE_ARGS = \
+        --enable all
+
+MAKE_FLAGS += \
+        CONF_DIR=/etc/oscam \
+        OSCAM_BIN=Distribution/oscam \
+        USE_SSL=1 \
+        USE_LIBUSB=1 \
+        USE_PCSC=1 \
+        USE_LIBCRYPTO=1 \
+        LEDSUPPORT=1
 
 define Build/Prepare
 	$(call Build/Prepare/Default)
