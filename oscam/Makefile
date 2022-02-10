@@ -78,7 +78,32 @@ endef
 
 define Package/oscam/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/build/oscam $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/Distribution/oscam $(1)/usr/bin/oscam
+
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/oscam.init $(1)/etc/init.d/oscam
+
+	$(INSTALL_DIR) $(1)/etc/oscam
+	$(INSTALL_CONF) ./files/oscam.conf $(1)/etc/oscam.conf
+	
+	$(INSTALL_DIR) $(1)/etc/oscam
+	$(INSTALL_CONF) ./files/oscam.server $(1)/etc/oscam.server
+	
+	$(INSTALL_DIR) $(1)/etc/oscam
+	$(INSTALL_CONF) ./files/oscam.user $(1)/etc/oscam.user
+	
+endef
+
+define Package/$(PKG_NAME)/prerm
+	#!/bin/sh
+	# if run within buildroot exit
+	[ -n "$${IPKG_INSTROOT}" ] && exit 0
+
+	# stop running scripts
+	/etc/init.d/oscam disable
+	/etc/init.d/oscam stop
+
+	exit 0
 endef
 
 $(eval $(call BuildPackage,oscam)) 
