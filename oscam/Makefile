@@ -8,24 +8,26 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_BRANCH:=git
-PKG_SOURCE_URL:=https://github.com/nx111/oscam.git
-#PKG_REV:=$(shell LC_ALL=C git info ${PKG_SOURCE_URL} | sed -ne's/^Last Changed Rev: //p')
-PKG_REV:=a454c6702436479f369a202c5b55bbcc452a4770
-
 PKG_NAME:=oscam
-PKG_VERSION:=git$(PKG_REV)
+PKG_REV:=r11696
+PKG_VERSION:=1.20-$(PKG_REV)
 PKG_RELEASE:=1
 
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE:=$(PKG_SOURCE_SUBDIR).tar.gz
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=$(PKG_REV)
-
-PKG_BUILD_DEPENDS:=
-
+PKG_SOURCE_VERSION:=a454c6702436479f369a202c5b55bbcc452a4770
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_URL:=https://github.com/nx111/oscam.git
+PKG_SOURCE:=$(PKG_SOURCE_SUBDIR).tar.bz2
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
-PKG_INSTALL_DIR:=$(PKG_BUILD_DIR)
+
+PKG_MAINTAINER:=OSCam developers <unknown>
+PKG_LICENSE:=GPL-3.0
+PKG_LICENSE_FILES:=COPYING
+
+
+PKG_BUILD_PARALLEL:=1
+
+
 
 
 
@@ -37,7 +39,6 @@ define Package/oscam
   DEPENDS:=+libopenssl +libusb-1.0 +kmod-usb-serial +kmod-usb-serial-ch341 +kmod-usb-serial-ftdi +kmod-usb-serial-pl2303 +libpcsclite +pcscd +ccid
   TITLE:=Open Source Conditional Access Module software
   URL:=http://streamboard.gmc.to/oscam/
-  SUBMENU:=
 endef
 
 define Package/oscam/description
@@ -58,23 +59,11 @@ MAKE_FLAGS += \
         USE_LIBCRYPTO=1 \
         LEDSUPPORT=1
 
-define Build/Prepare
-	$(call Build/Prepare/Default)
-	mkdir -p $(PKG_BUILD_DIR)/build
-	cd $(PKG_BUILD_DIR)/build;
-endef
+
 
 define Package/oscam/conffiles
+/etc/oscam/
 endef
-
-define Build/Compile
-	echo 'set (OSCAM_SYSTEM_NAME x86)' > $(PKG_BUILD_DIR)/toolchain.cmake
-	echo 'set (CMAKE_SYSTEM_NAME Linux)' >> $(PKG_BUILD_DIR)/toolchain.cmake
-	echo 'set (CMAKE_C_COMPILER $(TARGET_CROSS)gcc)' >> $(PKG_BUILD_DIR)/toolchain.cmake
-	echo 'set (CMAKE_SYSTEM_PROCESSOR $(ARCH))' >> $(PKG_BUILD_DIR)/toolchain.cmake
-	cd $(PKG_BUILD_DIR)/build;cmake -DCMAKE_TOOLCHAIN_FILE=$(PKG_BUILD_DIR)/toolchain.cmake ..;make
-endef
-
 
 define Package/oscam/install
 	$(INSTALL_DIR) $(1)/usr/bin
@@ -84,13 +73,13 @@ define Package/oscam/install
 	$(INSTALL_BIN) ./files/oscam.init $(1)/etc/init.d/oscam
 
 	$(INSTALL_DIR) $(1)/etc/oscam
-	$(INSTALL_CONF) ./files/oscam.conf $(1)/etc/oscam.conf
+	$(INSTALL_CONF) ./files/oscam.conf $(1)/etc/oscam/oscam.conf
 	
 	$(INSTALL_DIR) $(1)/etc/oscam
-	$(INSTALL_CONF) ./files/oscam.server $(1)/etc/oscam.server
+	$(INSTALL_CONF) ./files/oscam.server $(1)/etc/oscam/oscam.server
 	
 	$(INSTALL_DIR) $(1)/etc/oscam
-	$(INSTALL_CONF) ./files/oscam.user $(1)/etc/oscam.user
+	$(INSTALL_CONF) ./files/oscam.user $(1)/etc/oscam/oscam.user
 	
 endef
 
