@@ -328,9 +328,8 @@ static unsigned int vtunerc_ctrldev_poll(struct file *filp, poll_table *wait)
 
 /* ------------------------------------------------ */
 
-static const struct proc_ops vtunerc_ctrldev_fops = {
-	.proc_owner = THIS_MODULE,
-	.proc_unlocked_ioctl = vtunerc_ctrldev_ioctl,
+static const struct proc_ops vtunerc_ctrldev_ops = {
+	.proc_ioctl = vtunerc_ctrldev_ioctl,
 	.proc_write = vtunerc_ctrldev_write,
 	.proc_read  = vtunerc_ctrldev_read,
 	.proc_poll  = (void *) vtunerc_ctrldev_poll,
@@ -354,10 +353,10 @@ int vtunerc_register_ctrldev(struct vtunerc_ctx *ctx)
 		return -EINVAL;
 	}
 
-	cdev_init(&cdev, &vtunerc_ctrldev_fops);
+	cdev_init(&cdev, &vtunerc_ctrldev_ops);
 
 	cdev.owner = THIS_MODULE;
-	cdev.ops = &vtunerc_ctrldev_fops;
+	cdev.ops = &vtunerc_ctrldev_ops;
 
 	if (cdev_add(&cdev, chdev, ctx->config->devices) < 0)
 		printk(KERN_WARNING "vtunerc%d: unable to create dev\n",
