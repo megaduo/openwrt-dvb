@@ -213,7 +213,7 @@ static int vtuner_proc_release(struct inode *inode, struct file *file)
 	return ret;
 }
 
-static const struct proc_ops vtunerc_read_proc_fops = {
+static const struct proc_ops vtunerc_read_proc_ops = {
 	.proc_open      = vtunerc_proc_open,
 	.proc_read      = seq_read,
 	.proc_lseek	= seq_lseek,
@@ -333,7 +333,7 @@ static int __init vtunerc_init(void)
 					ctx->idx);
 			ctx->procname = my_strdup(procfilename);
 			if (proc_create_data(ctx->procname, 0, NULL,
-							&vtunerc_read_proc_fops,
+							&vtunerc_read_proc_ops,
 							ctx) == 0)
 				printk(KERN_WARNING
 					"vtunerc%d: Unable to register '%s' proc file\n",
