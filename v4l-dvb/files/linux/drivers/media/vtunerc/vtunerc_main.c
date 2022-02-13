@@ -216,7 +216,7 @@ static int vtuner_proc_release(struct inode *inode, struct file *file)
 static const struct proc_ops vtunerc_read_proc_fops = {
 	.proc_open      = vtunerc_proc_open,
 	.proc_read      = seq_read,
-	.proc_llseek	= seq_lseek,
+	.proc_lseek	= seq_lseek,
 	.proc_release	= vtuner_proc_release,
 	};
 
