@@ -330,11 +330,11 @@ static unsigned int vtunerc_ctrldev_poll(struct file *filp, poll_table *wait)
 
 static const struct proc_ops vtunerc_ctrldev_ops = {
 	.proc_ioctl = vtunerc_ctrldev_ioctl,
-	.write = vtunerc_ctrldev_write,
-	.read  = vtunerc_ctrldev_read,
-	.poll  = (void *) vtunerc_ctrldev_poll,
-	.open  = vtunerc_ctrldev_open,
-	.release  = vtunerc_ctrldev_close
+	.proc_write = vtunerc_ctrldev_write,
+	.proc_read  = vtunerc_ctrldev_read,
+	.proc_poll  = (void *) vtunerc_ctrldev_poll,
+	.proc_open  = vtunerc_ctrldev_open,
+	.proc_release  = vtunerc_ctrldev_close
 };
 
 static struct class *pclass;
@@ -353,7 +353,7 @@ int vtunerc_register_ctrldev(struct vtunerc_ctx *ctx)
 		return -EINVAL;
 	}
 
-	cdev_init(&cdev, &vtunerc_ctrldev_fops);
+	cdev_init(&cdev, &vtunerc_ctrldev_ops);
 
 	cdev.owner = THIS_MODULE;
 	cdev.ops = &vtunerc_ctrldev_ops;
